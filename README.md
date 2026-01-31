@@ -54,6 +54,14 @@ pip install -r requirements.txt
 ```
 streamlit run app.py
 ```
+## 🌐 Aplicação Online (Live Demo)
+
+A aplicação está disponível publicamente via **Streamlit Cloud**, permitindo a visualização e interação com os dados sem necessidade de execução local.
+
+🔗 **Acesse o dashboard:**  
+https://imersaodadosalura-leandropda.streamlit.app/
+
+O dashboard apresenta análises interativas, filtros dinâmicos e visualizações gráficas desenvolvidas durante a Imersão Dados – Alura.
 
 
 
