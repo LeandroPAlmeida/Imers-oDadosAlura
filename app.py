@@ -11,7 +11,19 @@ st.set_page_config(
 )
 
 # --- Carregamento dos dados ---
-df = pd.read_csv("https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao.csv")
+# Preferência: arquivo local do repositório (evita falhas de rede no deploy).
+# Fallback: URL raw do GitHub (útil caso você queira centralizar/atualizar o dataset externamente).
+DATA_URL = "https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/main/dados-imersao.csv"
+LOCAL_PATH = "dados-imersao.csv"
+
+@st.cache_data(show_spinner="Carregando dados...")
+def load_data():
+    try:
+        return pd.read_csv(LOCAL_PATH)
+    except Exception:
+        return pd.read_csv(DATA_URL)
+
+df = load_data()
 
 # --- Barra Lateral (Filtros) ---
 st.sidebar.header("🔍 Filtros")
@@ -54,7 +66,7 @@ if not df_filtrado.empty:
     total_registros = df_filtrado.shape[0]
     cargo_mais_frequente = df_filtrado["cargo"].mode()[0]
 else:
-    salario_medio, salario_mediano, salario_maximo, total_registros, cargo_mais_comum = 0, 0, 0, ""
+    salario_medio, salario_maximo, total_registros, cargo_mais_frequente = 0, 0, 0, ""
 
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Salário médio", f"${salario_medio:,.0f}")
